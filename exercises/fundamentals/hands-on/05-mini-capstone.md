@@ -4,7 +4,7 @@
 
 Pick **one** task below. Run the full loop — restate, plan, implement, verify, review — without anyone prompting you through the steps. This exercise has no instructor-led walkthrough; it's the four practical exercises' method, applied unaided.
 
-Each task sheet below gives you everything the deck promises: a short written requirement, acceptance tests, a list of allowed files, a suggested test command, and one deliberate ambiguity left for you to resolve — not an oversight, a decision opencode should surface and you should make.
+Each task sheet below gives you everything the deck promises: a short written requirement, acceptance tests, a list of allowed files, a suggested test command, and one deliberate ambiguity left for you to resolve — not an oversight, a decision OpenCode should surface and you should make.
 
 ## Choose one task
 
@@ -38,7 +38,7 @@ Each task sheet below gives you everything the deck promises: a short written re
 
 **Suggested test command:** `mvn test -Dtest=InventoryItemTest`.
 
-**Deliberate ambiguity:** the task sheet doesn't say what status an item with `quantity = 0` and `reorderLevel = 0` should get. Decide, and write a test that pins down your decision.
+**Deliberate ambiguity:** the task sheet doesn't say what status an item with `quantity = 0` and `reorderLevel = 0` should get. Decide, and create a test that pins down your decision.
 
 ### Task 5.C — Fix a boundary error at zero
 
@@ -78,7 +78,7 @@ Confirm it currently throws `ArithmeticException: / by zero` rather than returni
 
 **Requirement:** `InventoryService.validateTextFields` rejects a `description` longer than 500 characters, but nothing in the test suite confirms the boundary itself — that exactly 500 characters is accepted and 501 is not.
 
-**Acceptance tests (these are the tests you're writing, not code you're changing):**
+**Acceptance tests (these are the tests you're adding, not code you're changing):**
 - A description of exactly 500 characters is accepted.
 - A description of 501 characters is rejected with the existing message.
 - An empty description is still accepted (it's optional).
@@ -134,14 +134,14 @@ for my approval before editing.
 
 When you're done, write up — for yourself, or for whoever is reviewing your capstone:
 
-1. **A restatement of the task**, in your own words, not opencode's.
-2. **The plan** opencode proposed, as you approved it (or as you asked it to revise).
+1. **A restatement of the task**, in your own words, not OpenCode's.
+2. **The plan** OpenCode proposed, as you approved it (or as you asked it to revise).
 3. **The implementation** — what actually changed.
 4. **Tests or verification evidence** — the exact command you ran and its output.
 5. **A final diff review** — `git diff`, read line by line.
 6. **One paragraph on where you overruled the agent.**
 
-Item 6 is the point of the exercise. If you never overruled it — never pushed back on the plan, never rejected part of the diff, never resolved the deliberate ambiguity differently than opencode assumed — you were not supervising, you were watching.
+Item 6 is the point of the exercise. If you never overruled it — never pushed back on the plan, never rejected part of the diff, never resolved the deliberate ambiguity differently than OpenCode assumed — you were not supervising, you were watching.
 
 ## Debrief
 

@@ -81,17 +81,17 @@ mvn test -Dtest=InventoryRepositoryTest,InventoryServerTest
 
 ## Review activity
 
-Have attendees compare, side by side:
+Compare, side by side:
 
 - the original and final diff (`git diff`),
 - the existing tests (do they still make sense, and did any need touching?),
 - the agent's explanation of the change,
 - their own understanding of the code before the refactor.
 
-Then ask:
+Then consider:
 
 > "Would you approve this pull request without reading the diff?"
 
-The expected answer is no — even a constrained, small, behavior-preserving
+It's best to be on the cautious side — even a constrained, small, behavior-preserving
 refactor should be read line by line before merging, because "no behavior
 change" is a claim the agent makes, not a guarantee.

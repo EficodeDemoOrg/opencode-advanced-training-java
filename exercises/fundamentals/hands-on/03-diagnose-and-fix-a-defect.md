@@ -106,5 +106,5 @@ run the relevant test again and show the final diff summary.
 - Distinguish symptom removal (hardcoding `8` or special-casing the two test
   items) from correcting the underlying rule (clamping every item's shortfall
   at zero, which fixes the calculation for any input).
-- Small models benefit from explicit expected-versus-actual values — the
+- Models benefit from explicit expected-versus-actual values — the
   defect report above gives both `-37` (actual) and `8` (expected) on purpose.

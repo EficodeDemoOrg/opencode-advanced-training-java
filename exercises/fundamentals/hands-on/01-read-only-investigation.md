@@ -26,7 +26,7 @@ do not edit files or run commands that modify the repository.
 keep the answer under 300 words and include file names and symbols.
 ```
 
-Paste this into opencode as-is. Do not add extra context up front — part of the
+Paste this into OpenCode as-is. Do not add extra context up front — part of the
 exercise is watching which files the agent decides to open.
 
 ## What you should expect

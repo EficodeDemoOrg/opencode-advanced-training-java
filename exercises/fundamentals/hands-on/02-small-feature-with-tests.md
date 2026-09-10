@@ -20,13 +20,13 @@ Examples the agent should satisfy:
 
 ## Required workflow
 
-1. Ask opencode to restate the requirement and identify the relevant files.
+1. Ask OpenCode to restate the requirement and identify the relevant files.
 2. Ask for a short implementation plan.
 3. Review the plan yourself.
 4. Permit edits only to `InventoryItem.java` and its test file.
 5. Run the targeted test.
 6. Inspect the git diff.
-7. Ask opencode to explain the changed lines.
+7. Ask OpenCode to explain the changed lines.
 
 ## Prompt template
 

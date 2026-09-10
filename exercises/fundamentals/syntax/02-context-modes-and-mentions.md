@@ -10,7 +10,7 @@ No exercises here — this is a reference for the concepts. Hands-on practice wi
 
 ## @ Mentions
 
-opencode does not automatically hold your whole repository in its head — especially not on a small-context model like `gpt-4.1-mini`. The `@` key is how you tell it exactly what to look at instead of hoping it finds the right file on its own.
+opencode does not automatically hold your whole repository in its head. The `@` key is how you tell it exactly what to look at instead of hoping it finds the right file on its own.
 
 - Type `@` followed by part of a filename (e.g. `@InventoryItem`) and opencode fuzzy-searches the project, showing matching files. Arrow keys + Enter (or Tab) select one and insert it as a file reference, e.g.:
     ```text
