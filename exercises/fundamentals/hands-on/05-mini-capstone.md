@@ -38,7 +38,7 @@ Each task sheet below gives you everything the deck promises: a short written re
 
 **Suggested test command:** `mvn test -Dtest=InventoryItemTest`.
 
-**Deliberate ambiguity:** the task sheet doesn't say what status an item with `quantity = 0` and `reorderLevel = 0` should get. Decide, and create a test that pins down your decision.
+**Edge-case check:** Because the rule above makes `quantity = 0` `OUT_OF_STOCK` regardless of `reorderLevel`, add a test for `quantity = 0, reorderLevel = 0` expecting `OUT_OF_STOCK`.
 
 ### Task 5.C — Fix a boundary error at zero
 
