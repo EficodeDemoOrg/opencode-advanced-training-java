@@ -88,7 +88,7 @@ You'll extend this file with your own rules in a later exercise.
 
    The repo's actual `opencode.json` is far from minimal. Read through it and confirm you can explain each section:
     - `"$schema"` — gives you autocomplete/validation in editors that support JSON schema. Present in both the minimal and full versions.
-    - `"model": "anthropic/claude-sonnet-4-5"` — pins every session in this repo to one model, so the workshop's results stay reproducible instead of drifting with whatever you last connected with.
+   - There is no `"model"` entry in this file, so sessions use the model selected during `/connect`; the workshop target is the `gpt-4.1-mini` model described above.
     - `"autoupdate": true` — opencode updates itself in the background.
     - `"server": { "port": 4096 }` — fixes the local server port instead of letting opencode pick one.
     - `"permission"` — the biggest section, and the reason this file isn't minimal:
