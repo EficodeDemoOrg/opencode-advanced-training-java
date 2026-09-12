@@ -42,7 +42,7 @@ Give attendees this checklist before they start:
 - No behavior changes — the same inputs must throw the same
   `InventoryException` with the same message, for both create and update.
 - Existing tests must continue to pass, in particular
-  [`InventoryServerTest.java`](../../src/test/java/com/atlas/inventory/InventoryServerTest.java).
+  [`InventoryServerTest.java`](../../../src/test/java/com/atlas/inventory/InventoryServerTest.java).
 - No new dependencies.
 - Only `src/main/java/com/atlas/inventory/InventoryService.java` may be
   changed.
