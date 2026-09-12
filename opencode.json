@@ -29,8 +29,8 @@
       "mvn -pl*": "ask",
       "ls*": "allow",
       "pwd*": "allow",
-      "cat*": "allow",
-      "grep *": "allow",
+      "cat*": "ask",
+      "grep *": "ask"
       "find *": "allow",
       "rm *": "deny",
       "rmdir *": "deny",
