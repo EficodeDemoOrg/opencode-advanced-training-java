@@ -56,7 +56,7 @@ opencode has no separate "ask-only" chat panel the way GitHub Copilot does — e
     git commit -m "Add AGENTS.md via opencode /init"
     ```
 
-You'll extend this file with your own rules in the intermediate exercises — see [intermediate/01-agents-md.md](../intermediate/01-agents-md.md).
+You'll extend this file with your own rules in a later exercise.
 
 ## 🔁 Exercise 1.3: Re-run /init after making a change
 
