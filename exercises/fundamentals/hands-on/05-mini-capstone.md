@@ -102,7 +102,7 @@ Confirm it currently throws `ArithmeticException: / by zero` rather than returni
 
 **Suggested test command:** `mvn test -Dtest=InventoryServerTest`.
 
-**Deliberate ambiguity:** the task sheet doesn't specify exact wording or whether the part number should be quoted. Decide on a phrasing, and check it against `AGENTS.md` if you completed [intermediate/01-agents-md.md](../intermediate/01-agents-md.md) and it now has an opinion on message style.
+**Deliberate ambiguity:** the task sheet doesn't specify exact wording or whether the part number should be quoted. Decide on a phrasing, and check it against `AGENTS.md` if your repository uses one and it has an opinion on message style.
 
 ## Prompt template
 
