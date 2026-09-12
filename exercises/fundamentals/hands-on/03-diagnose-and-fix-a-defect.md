@@ -4,7 +4,7 @@
 
 This exercise needs a real, reproducible defect in the repository. Add the
 following buggy method to
-[`src/main/java/com/atlas/inventory/InventoryService.java`](../../src/main/java/com/atlas/inventory/InventoryService.java)
+[`src/main/java/com/atlas/inventory/InventoryService.java`](../../../src/main/java/com/atlas/inventory/InventoryService.java)
 (for example, near `isHealthy()`):
 
 ```java
