@@ -31,7 +31,7 @@ exercise is watching which files the agent decides to open.
 
 ## What you should expect
 
-- The calculation lives in `renderSummary()` in [`src/main/resources/static/app.js`](../../src/main/resources/static/app.js).
+- The calculation lives in `renderSummary()` in [`src/main/resources/static/app.js`](../../../src/main/resources/static/app.js).
 - A zone is derived by splitting `storageLocation` on `-` and taking the first
   segment (for example `"A-01-01"` → zone `"A"`).
 - There is no automated test file for `app.js` anywhere in `src/test/`. The only
