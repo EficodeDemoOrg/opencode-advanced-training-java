@@ -10,7 +10,7 @@ Each task sheet below gives you everything the deck promises: a short written re
 
 ### Task 5.A — Add a validation rule for an invalid quantity
 
-**Requirement:** `InventoryService` currently rejects a negative `quantity` but has no upper bound. Add a maximum: a `quantity` greater than `100000` must be rejected the same way a negative one is.
+**Requirement:** `InventoryService.validateForCreate` currently rejects a negative `quantity` but has no upper bound. Add a maximum: a `quantity` greater than `100000` must be rejected on create, the same way a negative one is.
 
 **Acceptance tests:**
 - `quantity = 100000` is accepted (boundary is inclusive).
@@ -22,7 +22,9 @@ Each task sheet below gives you everything the deck promises: a short written re
 
 **Suggested test command:** `mvn test -Dtest=InventoryServerTest` (or `InventoryServiceTest`, whichever you land on).
 
-**Deliberate ambiguity:** the task sheet does not say whether `reorderLevel` should have the same upper bound. Decide, and be ready to explain why.
+**Deliberate ambiguity (two of them here):**
+- The task sheet does not say whether `reorderLevel` should have the same upper bound. Decide, and be ready to explain why.
+- Look at `validateForUpdate` before you write anything. It does not check `quantity` at all — so should your new maximum apply to updates too? Whichever way you answer, say so explicitly rather than letting the agent decide for you by accident.
 
 ### Task 5.B — Add a stock-status category with examples
 
@@ -48,7 +50,7 @@ public int stockLevelPercentage() {
     return (quantity() * 100) / reorderLevel();
 }
 ```
-and this failing test to `InventoryItemTest.java`:
+and this failing test to `src/test/java/com/atlas/inventory/InventoryItemTest.java` (create that file if you didn't do exercise 2 — copy the package declaration and imports from `InventoryServiceTest.java`):
 ```java
 @Test
 void stockLevelPercentageHandlesNoReorderLevel() {
@@ -104,6 +106,8 @@ Confirm it currently throws `ArithmeticException: / by zero` rather than returni
 
 **Deliberate ambiguity:** the task sheet doesn't specify exact wording or whether the part number should be quoted. Decide on a phrasing, and check it against `AGENTS.md` if your repository uses one and it has an opinion on message style.
 
+**Hint, because this one has real teeth:** read `InventoryServerTest#reportsDuplicatePartNumbersAsConflict` first. The wording you pick has to satisfy both the new requirement and that existing assertion, and most natural rewrites fail one of them. Work out what the constraint actually is before you let the agent start writing.
+
 ## Prompt template
 
 Fill in the brackets for whichever task you picked. Keep the structure.
@@ -129,6 +133,10 @@ Constraints:
 Start by restating the task and giving a plan in five steps or fewer. Wait
 for my approval before editing.
 ```
+
+## A note on tests
+
+Tasks 5.A and 5.D need a test that exercises `InventoryService` directly. `src/test/java/com/atlas/inventory/InventoryServiceTest.java` already has the wiring for that — a `@TempDir` SQLite file, a repository, and a service — so extend it rather than building a harness from scratch. Do not let the agent reach for an in-memory database; this repository opens a fresh connection per operation, so an in-memory one is empty again by the time the query runs.
 
 ## Hand back six things
 

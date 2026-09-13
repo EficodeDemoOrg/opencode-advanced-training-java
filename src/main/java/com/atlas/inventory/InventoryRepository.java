@@ -22,9 +22,7 @@ public final class InventoryRepository {
     private final String databaseUrl;
 
     public InventoryRepository(Path databasePath) {
-        this(databasePath.toString().equals(":memory:")
-                ? "jdbc:sqlite::memory:"
-                : "jdbc:sqlite:" + databasePath.toAbsolutePath());
+        this("jdbc:sqlite:" + databasePath.toAbsolutePath());
     }
 
     public InventoryRepository(String databaseUrl) {
@@ -128,7 +126,7 @@ public final class InventoryRepository {
     }
 
     private void createParentDirectory() throws IOException {
-        if (!databaseUrl.startsWith("jdbc:sqlite:") || databaseUrl.equals("jdbc:sqlite::memory:")) {
+        if (!databaseUrl.startsWith("jdbc:sqlite:")) {
             return;
         }
         String fileName = databaseUrl.substring("jdbc:sqlite:".length());

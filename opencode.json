@@ -16,7 +16,7 @@
     "edit": "ask",
     "bash": {
       "*": "ask",
-      
+
       "git status*": "allow",
       "git diff*": "allow",
       "git log*": "allow",
@@ -26,12 +26,21 @@
       "yarn test*": "allow",
       "mvn test*": "allow",
       "mvn clean verify*": "allow",
-      "mvn -pl*": "ask",
       "ls*": "allow",
       "pwd*": "allow",
-      "cat*": "ask",
-      "grep *": "ask"
-      "find *": "allow",
+      "cat*": "allow",
+      "grep *": "allow",
+
+      "Get-ChildItem*": "allow",
+      "dir*": "allow",
+      "Get-Location*": "allow",
+      "Get-Content*": "allow",
+      "type *": "allow",
+      "Select-String*": "allow",
+
+      "mvn -pl*": "ask",
+      "find *": "ask",
+
       "rm *": "deny",
       "rmdir *": "deny",
       "git push*": "deny",
@@ -45,10 +54,37 @@
       "chmod *": "deny",
       "chown *": "deny",
       "dropdb*": "deny",
-      "truncate*": "deny"
+      "truncate*": "deny",
+      "*| xargs rm*": "deny",
+      "*| xargs rmdir*": "deny",
+      "*; rm *": "deny",
+      "*&& rm *": "deny",
+      "*|| rm *": "deny",
+      "*| sh": "deny",
+      "*| sh -*": "deny",
+      "*| bash": "deny",
+      "*| bash -*": "deny",
+
+      "*Remove-Item*": "deny",
+      "*Remove-ItemProperty*": "deny",
+      "*Clear-Content*": "deny",
+      "*Clear-Item*": "deny",
+      "del *": "deny",
+      "erase *": "deny",
+      "rd *": "deny",
+      "*Set-Acl*": "deny",
+      "icacls *": "deny",
+      "takeown *": "deny",
+      "*Invoke-Expression*": "deny",
+      "*Set-ExecutionPolicy*": "deny",
+      "*Stop-Computer*": "deny",
+      "*Restart-Computer*": "deny",
+      "*Format-Volume*": "deny",
+      "*Clear-Disk*": "deny",
+      "*Remove-Partition*": "deny",
+      "*-Verb RunAs*": "deny"
     },
-      "webfetch": "ask",
+    "webfetch": "ask",
     "external_directory": "ask"
   }
-
 }
