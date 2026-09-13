@@ -1,10 +1,15 @@
 Exercise 3: Diagnose and Fix a Defect (Live) — 25 minutes
 ===
-Trainers: a defect must be planted before attendees start this exercise — see
-[exercise_03_preparation.md](../../exercise_03_preparation.md).
 
 # Scenario (student-facing)
-A test is failing in the inventory service. We only have this defect report:
+(Trainers: a defect must be planted before attendees start this exercise — see
+[exercise_03_preparation.md](../../exercise_03_preparation.md).)
+
+There is now a new branch of this repository. Run:
+```
+git checkout exercise-03
+```
+to catch up. This new version has caused a test to fail in the inventory service. We only have this defect report:
 
 > `InventoryServiceTest#totalShortageAcrossMultipleItemsIgnoresItemsAboveReorderLevel`
 > is failing. `InventoryService.totalReorderShortage` is supposed to sum how
@@ -48,16 +53,3 @@ run the relevant test again and show the final diff summary.
 - A passing test afterward does not prove the diagnosis was correct, verify the agent's explanation of *why* the bug occurred against the actual code, not just that the assertion now succeeds.
 - Distinguish symptom removal (hardcoding `8` or special-casing the two test items) from correcting the underlying rule (clamping every item's shortfall at zero, which fixes the calculation for any input).
 - Models benefit from explicit expected-versus-actual values — the defect report above gives both `-37` (actual) and `8` (expected) on purpose.
-
-## Trainer notes
-
-- **If exercise 2 was run first**, `InventoryItem.reorderShortage()` already
-  exists and does exactly this clamping. `total += item.reorderShortage();` is
-  then a *better* fix than the `Math.max(0, …)` one-liner above, because it
-  reuses the rule instead of restating it. Accept it — and use it to make the
-  point that "the smallest fix" and "the best fix" aren't always the same line.
-- **Watch for the agent editing the test instead of the code.** Changing the
-  assertion to `assertEquals(-37, total)` makes the suite green and is exactly
-  the failure mode attendees need to learn to catch in review.
-- More context on the defects planted in this repository is in
-  [TRAINER-NOTES.md](../../TRAINER-NOTES.md).
