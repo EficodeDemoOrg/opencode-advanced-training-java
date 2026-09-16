@@ -32,7 +32,7 @@ public final class InventoryService {
         try {
             return repository.create(validatedItem);
         } catch (SQLException exception) {
-            throw translateConstraintViolation(exception);
+            throw translateConstraintViolation(exception, validatedItem.partNumber());
         }
     }
 
@@ -46,7 +46,7 @@ public final class InventoryService {
             }
             return validatedItem;
         } catch (SQLException exception) {
-            throw translateConstraintViolation(exception);
+            throw translateConstraintViolation(exception, validatedItem.partNumber());
         }
     }
 
@@ -60,6 +60,14 @@ public final class InventoryService {
 
     public boolean isHealthy() {
         return repository.isHealthy();
+    }
+
+    public static int totalReorderShortage(List<InventoryItem> items) {
+        int total = 0;
+        for (InventoryItem item : items) {
+            total += Math.max(0, item.reorderLevel() - item.quantity());
+        }
+        return total;
     }
 
     private static InventoryItem validateForCreate(InventoryItem item) {
@@ -127,13 +135,13 @@ public final class InventoryService {
         return value == null ? "" : value.trim();
     }
 
-    private static InventoryException translateConstraintViolation(SQLException exception)
+    private static InventoryException translateConstraintViolation(SQLException exception, String partNumber)
             throws SQLException {
         if (exception.getErrorCode() == 19
                 && exception.getMessage() != null
                 && exception.getMessage().contains("inventory_items.part_number")) {
             return new InventoryException(ErrorType.CONFLICT,
-                    "An inventory item with that part number already exists");
+                    "An inventory item with that part number already exists: " + partNumber);
         }
         throw exception;
     }

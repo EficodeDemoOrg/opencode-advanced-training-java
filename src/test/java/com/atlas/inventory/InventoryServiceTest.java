@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
 import java.nio.file.Path;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -48,6 +49,18 @@ class InventoryServiceTest {
 
         assertEquals(InventoryService.ErrorType.INVALID_INPUT, failure.type());
         assertEquals("Quantity cannot be negative", failure.getMessage());
+    }
+
+    @Test
+    void totalShortageAcrossMultipleItemsIgnoresItemsAboveReorderLevel() {
+        InventoryItem shortItem = new InventoryItem(
+                0, "A-1", "Short Item", "Component", "A-01-01", 2, 10, "");
+        InventoryItem surplusItem = new InventoryItem(
+                0, "B-1", "Surplus Item", "Component", "A-02-01", 50, 5, "");
+
+        int total = InventoryService.totalReorderShortage(List.of(shortItem, surplusItem));
+
+        assertEquals(8, total);
     }
 
     private static InventoryItem newItem(String partNumber, int quantity) {
