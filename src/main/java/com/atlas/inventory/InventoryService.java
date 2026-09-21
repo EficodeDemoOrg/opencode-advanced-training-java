@@ -76,19 +76,21 @@ public final class InventoryService {
         if (normalized.quantity() < 0) {
             throw invalid("Quantity cannot be negative");
         }
-        if (normalized.reorderLevel() < 0) {
-            throw invalid("Reorder level cannot be negative");
-        }
+        requireNonNegativeReorderLevel(normalized);
         return normalized.withId(0);
     }
 
     private static InventoryItem validateForUpdate(InventoryItem item) {
         InventoryItem normalized = normalize(item);
         validateTextFields(normalized);
-        if (normalized.reorderLevel() < 0) {
+        requireNonNegativeReorderLevel(normalized);
+        return normalized;
+    }
+
+    private static void requireNonNegativeReorderLevel(InventoryItem item) {
+        if (item.reorderLevel() < 0) {
             throw invalid("Reorder level cannot be negative");
         }
-        return normalized;
     }
 
     private static InventoryItem normalize(InventoryItem item) {
