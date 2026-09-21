@@ -1,6 +1,6 @@
 # AGENTS.md
 
-Atlas Inventory is a sample app for an OpenCode agentic-coding workshop, not a production project. Workshop exercises live in `exercises/`; when a task references an exercise number, start with that exercise file.
+Atlas Inventory is a sample app for an OpenCode agentic-coding workshop, not a production project. This repository is a fork of the intermediate training repo (currently identical to it), with the goal of landing all intermediate exercises so the default state becomes the starting point for future advanced exercises. Workshop exercises live in `exercises/`; when a task references an exercise number, start with that exercise file.
 
 ## Commands
 
@@ -10,16 +10,25 @@ Atlas Inventory is a sample app for an OpenCode agentic-coding workshop, not a p
 - Env vars: `PORT` (default 8080), `INVENTORY_DB` (default `data/inventory.db`). The app creates the DB file and parent directory itself and seeds from `db/seed.sql` when the table is empty. Reset: stop the app, delete the `.db`, restart.
 - Baseline: 15 tests in 3 classes (Repository 6, Service 2, Server 7), all green on `main`.
 
-## Planted defects — do not "fix" unless explicitly asked
+## Exercises and planted defects
 
-- `InventoryService.validateForUpdate` deliberately does **not** check `quantity`, so `PUT` accepts negative stock (create does check it). This is the exercise 4/5 payload and no test covers it. Do not fix on `main`. When refactoring, do not unify `validateForCreate`/`validateForUpdate` into one shared validator without preserving this asymmetry — the suite stays green either way, so a green build proves nothing about this change.
-- `exercises/scripts/apply-exercise-03-defect.{sh,ps1}` (run from repo root, idempotent) inject a static `totalReorderShortage` into `InventoryService.java` (unclamped sum; returns -37 where 8 is expected) plus a failing test in `InventoryServiceTest.java`. On the `exercise-03` branch CI is red **by design** — never merge that branch to `main`.
+The intermediate exercises (`exercises/fundamentals/hands-on/01`–`05`) are not implemented in this repo yet. Do not implement them or "fix" the planted defects preemptively — only when explicitly asked. When asked, follow the exercise files; their deliberate ambiguities are decisions for the user, not the agent.
+
+- `InventoryService.validateForUpdate` deliberately does **not** check `quantity`, so `PUT` accepts negative stock (create does check it). No test covers it. When refactoring, do not unify `validateForCreate`/`validateForUpdate` into one shared validator without preserving this asymmetry — the suite stays green either way, so a green build proves nothing about this change.
+- `exercises/scripts/apply-exercise-03-defect.{sh,ps1}` (run from repo root, idempotent) inject a static `totalReorderShortage` into `InventoryService.java` (unclamped sum; returns -37 where 8 is expected) plus a failing test in `InventoryServiceTest.java`. Exercise 3 is to fix it. On the `exercise-03` branch CI is red **by design** — never merge that branch to `main`.
+
+### Target end state once the exercises are implemented
+
+- Exercise 2: `InventoryItem.reorderShortage()` and a new `InventoryItemTest.java`.
+- Exercise 3: `totalReorderShortage` clamped (e.g. `Math.max(0, …)`) so its regression test passes.
+- Exercise 4: the duplicated reorder-level check factored into a shared helper, with `validateForUpdate`'s missing quantity check preserved.
+- Exercise 5: tasks 5.A–5.E — maximum `quantity` on create, stock status on `InventoryItem`, `stockLevelPercentage` divide-by-zero, description boundary tests, and a 409 message that includes the part number.
 
 ## Testing gotchas
 
 - Never use an in-memory SQLite database: `InventoryRepository` opens a fresh JDBC connection per operation, so `:memory:` is empty again by the time the query runs (`no such table: inventory_items`). Use a real temp file — copy the `@TempDir` + `repository.initialize()` pattern from `InventoryServiceTest`.
 - `InventoryServerTest#reportsDuplicatePartNumbersAsConflict` asserts the 409 body contains the exact substring `part number already exists`. Appending to that message is fine; replacing it breaks the test.
-- `InventoryItemTest` is deliberately **not** shipped — creating it is part of exercise 2. Do not assume it exists.
+- `InventoryItemTest` is deliberately **not** shipped in the current state — creating it is part of exercise 2. Do not assume it exists until that exercise has been landed.
 
 ## API shape (counterintuitive)
 
@@ -36,5 +45,5 @@ Atlas Inventory is a sample app for an OpenCode agentic-coding workshop, not a p
 ## Workshop conventions
 
 - `exercises/TRAINER-NOTES.md` is trainer-only and documents the planted defects and exercise traps. Do not use it to solve an exercise you are running.
-- Later exercises assume this `AGENTS.md` exists (generated in exercise 1.2) — keep it accurate if the codebase changes during a workshop.
+- This `AGENTS.md` is temporary: it guides the work of landing the intermediate exercises. Once they are implemented and the advanced exercises are added, the file is removed so advanced-exercise participants start from a fresh state with no pre-existing instructions. Keep it accurate if the codebase changes before then.
 - `opencode.json` pre-allows `mvn test*` and `mvn clean verify*`; destructive commands (`rm`, `git push`, `git reset --hard`, …) are denied and other bash prompts for approval.
