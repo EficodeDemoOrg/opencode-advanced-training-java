@@ -15,6 +15,10 @@ public record InventoryItem(
                 quantity, reorderLevel, description);
     }
 
+    public int reorderShortage() {
+        return Math.max(0, reorderLevel() - quantity());
+    }
+
     public String toJson() {
         return "{" +
                 "\"id\":" + id + "," +
