@@ -62,6 +62,14 @@ public final class InventoryService {
         return repository.isHealthy();
     }
 
+    public static int totalReorderShortage(List<InventoryItem> items) {
+        int total = 0;
+        for (InventoryItem item : items) {
+            total += Math.max(0, item.reorderLevel() - item.quantity());
+        }
+        return total;
+    }
+
     private static InventoryItem validateForCreate(InventoryItem item) {
         InventoryItem normalized = normalize(item);
         validateTextFields(normalized);
