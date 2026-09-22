@@ -19,6 +19,22 @@ public record InventoryItem(
         return Math.max(0, reorderLevel() - quantity());
     }
 
+    public enum StockStatus {
+        OUT_OF_STOCK,
+        LOW,
+        OK
+    }
+
+    public StockStatus stockStatus() {
+        if (quantity() == 0) {
+            return StockStatus.OUT_OF_STOCK;
+        }
+        if (quantity() <= reorderLevel()) {
+            return StockStatus.LOW;
+        }
+        return StockStatus.OK;
+    }
+
     public String toJson() {
         return "{" +
                 "\"id\":" + id + "," +

@@ -38,4 +38,44 @@ class InventoryItemTest {
         assertEquals(0, item.reorderShortage());
     }
 
+    @Test
+    void outOfStockWhenQuantityIsZero() {
+        InventoryItem item = new InventoryItem(0, "B-1", "Empty Item", "Component", "A-04-01",
+                0, 5, "");
+
+        assertEquals(InventoryItem.StockStatus.OUT_OF_STOCK, item.stockStatus());
+    }
+
+    @Test
+    void lowWhenQuantityIsBelowReorderLevel() {
+        InventoryItem item = new InventoryItem(0, "B-2", "Low Item", "Component", "A-04-02",
+                3, 5, "");
+
+        assertEquals(InventoryItem.StockStatus.LOW, item.stockStatus());
+    }
+
+    @Test
+    void lowWhenQuantityEqualsReorderLevel() {
+        InventoryItem item = new InventoryItem(0, "B-3", "Even Item", "Component", "A-04-03",
+                5, 5, "");
+
+        assertEquals(InventoryItem.StockStatus.LOW, item.stockStatus());
+    }
+
+    @Test
+    void okWhenQuantityIsAboveReorderLevel() {
+        InventoryItem item = new InventoryItem(0, "B-4", "Full Item", "Component", "A-04-04",
+                6, 5, "");
+
+        assertEquals(InventoryItem.StockStatus.OK, item.stockStatus());
+    }
+
+    @Test
+    void outOfStockWhenBothValuesAreZero() {
+        InventoryItem item = new InventoryItem(0, "B-5", "Untracked Item", "Component", "A-04-05",
+                0, 0, "");
+
+        assertEquals(InventoryItem.StockStatus.OUT_OF_STOCK, item.stockStatus());
+    }
+
 }
