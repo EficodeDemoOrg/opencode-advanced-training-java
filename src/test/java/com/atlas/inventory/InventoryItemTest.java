@@ -25,6 +25,31 @@ class InventoryItemTest {
         assertEquals(0, item(0, 0).reorderShortage());
     }
 
+    @Test
+    void isOutOfStockWhenQuantityIsZero() {
+        assertEquals(InventoryItem.StockStatus.OUT_OF_STOCK, item(0, 5).stockStatus());
+    }
+
+    @Test
+    void isLowWhenQuantityIsBelowReorderLevel() {
+        assertEquals(InventoryItem.StockStatus.LOW, item(3, 5).stockStatus());
+    }
+
+    @Test
+    void isLowWhenQuantityEqualsReorderLevel() {
+        assertEquals(InventoryItem.StockStatus.LOW, item(5, 5).stockStatus());
+    }
+
+    @Test
+    void isOkWhenQuantityIsAboveReorderLevel() {
+        assertEquals(InventoryItem.StockStatus.OK, item(6, 5).stockStatus());
+    }
+
+    @Test
+    void isOutOfStockWhenQuantityAndReorderLevelAreZero() {
+        assertEquals(InventoryItem.StockStatus.OUT_OF_STOCK, item(0, 0).stockStatus());
+    }
+
     private static InventoryItem item(int quantity, int reorderLevel) {
         return new InventoryItem(1, "TEST-ITEM", "Test Item", "Test", "A-01",
                 quantity, reorderLevel, "Test inventory item");
