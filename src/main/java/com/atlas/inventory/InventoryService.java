@@ -9,6 +9,7 @@ public final class InventoryService {
     private static final int CATEGORY_MAX_LENGTH = 50;
     private static final int LOCATION_MAX_LENGTH = 50;
     private static final int DESCRIPTION_MAX_LENGTH = 500;
+    private static final int QUANTITY_MAX = 100000;
 
     private final InventoryRepository repository;
 
@@ -75,6 +76,9 @@ public final class InventoryService {
         validateTextFields(normalized);
         if (normalized.quantity() < 0) {
             throw invalid("Quantity cannot be negative");
+        }
+        if (normalized.quantity() > QUANTITY_MAX) {
+            throw invalid("Quantity cannot be greater than " + QUANTITY_MAX);
         }
         requireNonNegativeReorderLevel(normalized);
         return normalized.withId(0);
