@@ -87,6 +87,30 @@ class InventoryServiceTest {
     }
 
     @Test
+    void acceptsADescriptionAtTheMaximumLengthOnCreate() throws Exception {
+        InventoryItem created = service.create(newItemWithDescription("TXT-1", "d".repeat(500)));
+
+        assertEquals(500, created.description().length());
+    }
+
+    @Test
+    void rejectsADescriptionAboveTheMaximumLengthOnCreate() {
+        InventoryService.InventoryException failure = assertThrows(
+                InventoryService.InventoryException.class,
+                () -> service.create(newItemWithDescription("TXT-2", "d".repeat(501))));
+
+        assertEquals(InventoryService.ErrorType.INVALID_INPUT, failure.type());
+        assertEquals("Description must be 500 characters or fewer", failure.getMessage());
+    }
+
+    @Test
+    void acceptsAnEmptyDescriptionOnCreate() throws Exception {
+        InventoryItem created = service.create(newItemWithDescription("TXT-3", ""));
+
+        assertEquals("", created.description());
+    }
+
+    @Test
     void totalShortageAcrossMultipleItemsIgnoresItemsAboveReorderLevel() {
         InventoryItem shortItem = new InventoryItem(
                 0, "A-1", "Short Item", "Component", "A-01-01", 2, 10, "");
@@ -101,5 +125,10 @@ class InventoryServiceTest {
     private static InventoryItem newItem(String partNumber, int quantity) {
         return new InventoryItem(0, partNumber, "Test Component", "Component", "C-08-01",
                 quantity, 5, "Created during a service test");
+    }
+
+    private static InventoryItem newItemWithDescription(String partNumber, String description) {
+        return new InventoryItem(0, partNumber, "Test Component", "Component", "C-09-01",
+                10, 5, description);
     }
 }
