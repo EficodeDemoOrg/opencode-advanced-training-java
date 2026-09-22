@@ -78,4 +78,44 @@ class InventoryItemTest {
         assertEquals(InventoryItem.StockStatus.OUT_OF_STOCK, item.stockStatus());
     }
 
+    @Test
+    void stockLevelPercentageHandlesNoReorderLevel() {
+        InventoryItem item = new InventoryItem(
+                0, "A-1", "No Reorder Tracking", "Component", "A-01-01", 12, 0, "");
+
+        assertEquals(100, item.stockLevelPercentage());
+    }
+
+    @Test
+    void stockLevelPercentageIsFullWhenQuantityIsZeroAndNoReorderLevel() {
+        InventoryItem item = new InventoryItem(
+                0, "C-2", "Untracked Empty Item", "Component", "C-02-01", 0, 0, "");
+
+        assertEquals(100, item.stockLevelPercentage());
+    }
+
+    @Test
+    void stockLevelPercentageIsHalfWhenQuantityIsHalfOfReorderLevel() {
+        InventoryItem item = new InventoryItem(
+                0, "C-3", "Half Stocked Item", "Component", "C-03-01", 5, 10, "");
+
+        assertEquals(50, item.stockLevelPercentage());
+    }
+
+    @Test
+    void stockLevelPercentageIsFullWhenQuantityEqualsReorderLevel() {
+        InventoryItem item = new InventoryItem(
+                0, "C-4", "Even Item", "Component", "C-04-01", 10, 10, "");
+
+        assertEquals(100, item.stockLevelPercentage());
+    }
+
+    @Test
+    void stockLevelPercentageMayExceedHundredWhenQuantityExceedsReorderLevel() {
+        InventoryItem item = new InventoryItem(
+                0, "C-5", "Surplus Item", "Component", "C-05-01", 20, 10, "");
+
+        assertEquals(200, item.stockLevelPercentage());
+    }
+
 }

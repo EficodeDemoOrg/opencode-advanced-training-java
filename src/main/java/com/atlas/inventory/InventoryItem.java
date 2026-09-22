@@ -35,6 +35,13 @@ public record InventoryItem(
         return StockStatus.OK;
     }
 
+    public int stockLevelPercentage() {
+        if (reorderLevel() == 0) {
+            return 100;
+        }
+        return (quantity() * 100) / reorderLevel();
+    }
+
     public String toJson() {
         return "{" +
                 "\"id\":" + id + "," +
