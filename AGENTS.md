@@ -24,4 +24,5 @@
 
 ## Workshop Context
 
-- `exercises/` is course material, not application runtime code. Some trainer exercises intentionally introduce failing tests or defects; do not infer the desired production behavior from a prepared exercise branch without checking the task and `README.md`.
+- This fork is intended to become the completed intermediate-course baseline on which future advanced exercises will build. Do not perform intermediate exercises unless requested, but when implementing that baseline, complete the exercises in application code and tests rather than altering their instructions.
+- `exercises/` is course material, not application runtime code. Some trainer exercises intentionally introduce failing tests or defects; distinguish exercise setup from the intended completed behavior by checking the task, exercise acceptance criteria, and `README.md`.
