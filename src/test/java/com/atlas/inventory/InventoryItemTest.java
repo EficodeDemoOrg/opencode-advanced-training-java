@@ -50,6 +50,31 @@ class InventoryItemTest {
         assertEquals(InventoryItem.StockStatus.OUT_OF_STOCK, item(0, 0).stockStatus());
     }
 
+    @Test
+    void stockLevelPercentageIsFullWhenItemHasNoReorderLevel() {
+        assertEquals(100, item(12, 0).stockLevelPercentage());
+    }
+
+    @Test
+    void stockLevelPercentageIsFullWhenEmptyItemHasNoReorderLevel() {
+        assertEquals(100, item(0, 0).stockLevelPercentage());
+    }
+
+    @Test
+    void stockLevelPercentageIsFiftyWhenQuantityIsHalfTheReorderLevel() {
+        assertEquals(50, item(5, 10).stockLevelPercentage());
+    }
+
+    @Test
+    void stockLevelPercentageIsFullWhenQuantityEqualsReorderLevel() {
+        assertEquals(100, item(10, 10).stockLevelPercentage());
+    }
+
+    @Test
+    void stockLevelPercentageCanExceedOneHundred() {
+        assertEquals(200, item(20, 10).stockLevelPercentage());
+    }
+
     private static InventoryItem item(int quantity, int reorderLevel) {
         return new InventoryItem(1, "TEST-ITEM", "Test Item", "Test", "A-01",
                 quantity, reorderLevel, "Test inventory item");
