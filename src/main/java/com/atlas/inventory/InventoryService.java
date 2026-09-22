@@ -33,7 +33,7 @@ public final class InventoryService {
         try {
             return repository.create(validatedItem);
         } catch (SQLException exception) {
-            throw translateConstraintViolation(exception);
+            throw translateConstraintViolation(exception, validatedItem);
         }
     }
 
@@ -47,7 +47,7 @@ public final class InventoryService {
             }
             return validatedItem;
         } catch (SQLException exception) {
-            throw translateConstraintViolation(exception);
+            throw translateConstraintViolation(exception, validatedItem);
         }
     }
 
@@ -141,13 +141,15 @@ public final class InventoryService {
         return value == null ? "" : value.trim();
     }
 
-    private static InventoryException translateConstraintViolation(SQLException exception)
+    private static InventoryException translateConstraintViolation(SQLException exception,
+                                                                   InventoryItem item)
             throws SQLException {
         if (exception.getErrorCode() == 19
                 && exception.getMessage() != null
                 && exception.getMessage().contains("inventory_items.part_number")) {
             return new InventoryException(ErrorType.CONFLICT,
-                    "An inventory item with that part number already exists");
+                    "An inventory item with that part number already exists: '"
+                            + item.partNumber() + "'");
         }
         throw exception;
     }
