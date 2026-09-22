@@ -15,6 +15,33 @@ public record InventoryItem(
                 quantity, reorderLevel, description);
     }
 
+    public int reorderShortage() {
+        return Math.max(0, reorderLevel - quantity);
+    }
+
+    public enum StockStatus {
+        OUT_OF_STOCK,
+        LOW,
+        OK
+    }
+
+    public StockStatus stockStatus() {
+        if (quantity == 0) {
+            return StockStatus.OUT_OF_STOCK;
+        }
+        if (quantity <= reorderLevel) {
+            return StockStatus.LOW;
+        }
+        return StockStatus.OK;
+    }
+
+    public int stockLevelPercentage() {
+        if (reorderLevel == 0) {
+            return 100;
+        }
+        return (quantity * 100) / reorderLevel;
+    }
+
     public String toJson() {
         return "{" +
                 "\"id\":" + id + "," +

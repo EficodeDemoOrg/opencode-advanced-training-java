@@ -9,6 +9,7 @@ public final class InventoryService {
     private static final int CATEGORY_MAX_LENGTH = 50;
     private static final int LOCATION_MAX_LENGTH = 50;
     private static final int DESCRIPTION_MAX_LENGTH = 500;
+    private static final int QUANTITY_MAX = 100000;
 
     private final InventoryRepository repository;
 
@@ -32,7 +33,7 @@ public final class InventoryService {
         try {
             return repository.create(validatedItem);
         } catch (SQLException exception) {
-            throw translateConstraintViolation(exception);
+            throw translateConstraintViolation(exception, validatedItem);
         }
     }
 
@@ -46,7 +47,7 @@ public final class InventoryService {
             }
             return validatedItem;
         } catch (SQLException exception) {
-            throw translateConstraintViolation(exception);
+            throw translateConstraintViolation(exception, validatedItem);
         }
     }
 
@@ -62,25 +63,38 @@ public final class InventoryService {
         return repository.isHealthy();
     }
 
+    public static int totalReorderShortage(List<InventoryItem> items) {
+        int total = 0;
+        for (InventoryItem item : items) {
+            total += Math.max(0, item.reorderLevel() - item.quantity());
+        }
+        return total;
+    }
+
     private static InventoryItem validateForCreate(InventoryItem item) {
         InventoryItem normalized = normalize(item);
         validateTextFields(normalized);
         if (normalized.quantity() < 0) {
             throw invalid("Quantity cannot be negative");
         }
-        if (normalized.reorderLevel() < 0) {
-            throw invalid("Reorder level cannot be negative");
+        if (normalized.quantity() > QUANTITY_MAX) {
+            throw invalid("Quantity cannot be greater than " + QUANTITY_MAX);
         }
+        requireNonNegativeReorderLevel(normalized);
         return normalized.withId(0);
     }
 
     private static InventoryItem validateForUpdate(InventoryItem item) {
         InventoryItem normalized = normalize(item);
         validateTextFields(normalized);
-        if (normalized.reorderLevel() < 0) {
+        requireNonNegativeReorderLevel(normalized);
+        return normalized;
+    }
+
+    private static void requireNonNegativeReorderLevel(InventoryItem item) {
+        if (item.reorderLevel() < 0) {
             throw invalid("Reorder level cannot be negative");
         }
-        return normalized;
     }
 
     private static InventoryItem normalize(InventoryItem item) {
@@ -127,13 +141,15 @@ public final class InventoryService {
         return value == null ? "" : value.trim();
     }
 
-    private static InventoryException translateConstraintViolation(SQLException exception)
+    private static InventoryException translateConstraintViolation(SQLException exception,
+                                                                   InventoryItem item)
             throws SQLException {
         if (exception.getErrorCode() == 19
                 && exception.getMessage() != null
                 && exception.getMessage().contains("inventory_items.part_number")) {
             return new InventoryException(ErrorType.CONFLICT,
-                    "An inventory item with that part number already exists");
+                    "An inventory item with that part number already exists: '"
+                            + item.partNumber() + "'");
         }
         throw exception;
     }
